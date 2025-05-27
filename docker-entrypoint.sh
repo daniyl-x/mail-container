@@ -4,6 +4,8 @@
 MYORIGIN="example.com"
 MASQUERADE_DOMAINS=${MASQUERADE_DOMAINS-}
 POSTMASTER=${POSTMASTER-}
+TLS_CERT_FILE=${TLS_CERT_FILE-}
+TLS_KEY_FILE=${TLS_KEY_FILE-}
 
 
 set_opt(){
@@ -21,6 +23,11 @@ cp "$_CONF" "$_TMPFILE"
 set_opt "$_TMPFILE" "myorigin" "$MYORIGIN"
 set_opt "$_TMPFILE" "inet_interfaces" "loopback-only"
 set_opt "$_TMPFILE" "masquerade_domains" "$MASQUERADE_DOMAINS"
+
+if [ -n "$TLS_CERT_FILE" ] && [ -n "$TLS_KEY_FILE" ]; then
+    set_opt "$_TMPFILE" "smtpd_tls_cert_file" "$TLS_CERT_FILE"
+    set_opt "$_TMPFILE" "smtpd_tls_key_file" "$TLS_KEY_FILE"
+fi
 
 diff -q "$_CONF" "$_TMPFILE" || cp "$_TMPFILE" "$_CONF"
 

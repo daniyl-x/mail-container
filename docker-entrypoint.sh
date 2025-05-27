@@ -1,11 +1,15 @@
 #!/bin/sh
 
 
-MYORIGIN="example.com"
 MASQUERADE_DOMAINS=${MASQUERADE_DOMAINS-}
-POSTMASTER=${POSTMASTER-}
+MYDOMAIN=${MYDOMAIN-}
+MYHOSTNAME=${MYHOSTNAME:-"mail.\$mydomain"}
+MYORIGIN=${MYORIGIN:-"\$mydomain"}
+NET_INTERFACES=${NET_INTERFACES:-"loopback-only"}
 TLS_CERT_FILE=${TLS_CERT_FILE-}
 TLS_KEY_FILE=${TLS_KEY_FILE-}
+
+POSTMASTER=${POSTMASTER-}
 
 
 set_opt(){
@@ -20,8 +24,15 @@ _CONF="/etc/postfix/main.cf"
 _TMPFILE="$(mktemp)"
 cp "$_CONF" "$_TMPFILE"
 
+if [ -z "$MYDOMAIN" ]; then
+    echo "[ERROR] No domain name was passed. Use MYDOMAIN variable to do this"
+    return 1
+fi
+
+set_opt "$_TMPFILE" "mydomain" "$MYDOMAIN"
 set_opt "$_TMPFILE" "myorigin" "$MYORIGIN"
-set_opt "$_TMPFILE" "inet_interfaces" "loopback-only"
+set_opt "$_TMPFILE" "myhostname" "$MYHOSTNAME"
+set_opt "$_TMPFILE" "inet_interfaces" "$NET_INTERFACES"
 set_opt "$_TMPFILE" "masquerade_domains" "$MASQUERADE_DOMAINS"
 
 if [ -n "$TLS_CERT_FILE" ] && [ -n "$TLS_KEY_FILE" ]; then

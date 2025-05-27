@@ -12,21 +12,26 @@ TLS_KEY_FILE=${TLS_KEY_FILE-}
 POSTMASTER=${POSTMASTER-}
 
 
-if [ -z "$MYDOMAIN" ]; then
-    echo "[ERROR] No domain name was passed. Use MYDOMAIN variable to do this"
+_ERRORS=0
+for _VAR in "MYDOMAIN" "TLS_CERT_FILE" "TLS_KEY_FILE"; do
+    if [ -z "$(eval echo \$$_VAR)" ]; then
+        echo "[ERROR] Variable ${_VAR} should not be empty"
+        _ERRORS=1
+    fi
+done
+
+if [ "$_ERRORS" -ne 0 ]; then
     return 1
 fi
+
 
 postconf -e "mydomain = ${MYDOMAIN}"
 postconf -e "myorigin = ${MYORIGIN}"
 postconf -e "myhostname = ${MYHOSTNAME}"
 postconf -e "masquerade_domains = ${MASQUERADE_DOMAINS}"
 postconf -e "home_mailbox = ${HOME_MAILBOX}"
-
-if [ -n "$TLS_CERT_FILE" ] && [ -n "$TLS_KEY_FILE" ]; then
-    postconf -e "smtpd_tls_cert_file = ${TLS_CERT_FILE}"
-    postconf -e "smtpd_tls_key_file = ${TLS_KEY_FILE}"
-fi
+postconf -e "smtpd_tls_cert_file = ${TLS_CERT_FILE}"
+postconf -e "smtpd_tls_key_file = ${TLS_KEY_FILE}"
 
 postconf -e "smtpd_sasl_type = dovecot"
 postconf -e "smtpd_sasl_path = private/auth"

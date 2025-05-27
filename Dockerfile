@@ -8,5 +8,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 COPY config/aliases /etc/aliases
 COPY docker-entrypoint.sh .
 
+EXPOSE 25
+
 ENTRYPOINT ["./docker-entrypoint.sh"]
 

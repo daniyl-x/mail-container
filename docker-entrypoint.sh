@@ -3,6 +3,7 @@
 
 MYORIGIN="example.com"
 MASQUERADE_DOMAINS=${MASQUERADE_DOMAINS-}
+POSTMASTER=${POSTMASTER-}
 
 
 set_opt(){
@@ -22,6 +23,13 @@ set_opt "$_TMPFILE" "inet_interfaces" "loopback-only"
 set_opt "$_TMPFILE" "masquerade_domains" "$MASQUERADE_DOMAINS"
 
 diff -q "$_CONF" "$_TMPFILE" || cp "$_TMPFILE" "$_CONF"
+
+
+if [ -n "$POSTMASTER" ] && \
+    ! grep "$POSTMASTER" /etc/aliases; then
+    echo "root: ${POSTMASTER}" >> /etc/aliases
+fi
+newaliases
 
 
 service postfix start

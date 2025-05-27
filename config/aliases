@@ -1,0 +1,5 @@
+# See man(5) for format
+
+# Forward all system mail to root
+postmaster: root
+

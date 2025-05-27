@@ -21,7 +21,7 @@ set_opt "$_TMPFILE" "myorigin" "$MYORIGIN"
 set_opt "$_TMPFILE" "inet_interfaces" "loopback-only"
 set_opt "$_TMPFILE" "masquerade_domains" "$MASQUERADE_DOMAINS"
 
-diff -q "$_CONF" "$_TMPFILE" || cat "$_TMPFILE" > "$_CONF"
+diff -q "$_CONF" "$_TMPFILE" || cp "$_TMPFILE" "$_CONF"
 
 
 service postfix start

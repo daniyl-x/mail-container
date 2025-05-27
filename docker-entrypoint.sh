@@ -43,8 +43,7 @@ fi
 diff -q "$_CONF" "$_TMPFILE" || cp "$_TMPFILE" "$_CONF"
 
 
-if [ -n "$POSTMASTER" ] && \
-    ! grep "$POSTMASTER" /etc/aliases; then
+if [ -n "$POSTMASTER" ] && ! grep "$POSTMASTER" /etc/aliases; then
     echo "root: ${POSTMASTER}" >> /etc/aliases
 fi
 newaliases

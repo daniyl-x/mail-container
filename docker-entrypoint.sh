@@ -28,6 +28,15 @@ if [ -n "$TLS_CERT_FILE" ] && [ -n "$TLS_KEY_FILE" ]; then
     postconf -e "smtpd_tls_key_file = ${TLS_KEY_FILE}"
 fi
 
+postconf -e "smtpd_sasl_type = dovecot"
+postconf -e "smtpd_sasl_path = private/auth"
+postconf -e "smtpd_sasl_local_domain ="
+postconf -e "smtpd_sasl_security_options = noanonymous"
+postconf -e "broken_sasl_auth_clients = yes"
+postconf -e "smtpd_sasl_auth_enable = yes"
+postconf -e "smtpd_sasl_recipient_restrictions = permit_sasl_authenticated,\
+    permit_mynetworks,reject_unauth_destination"
+
 
 if [ -n "$POSTMASTER" ] && ! grep "$POSTMASTER" /etc/aliases; then
     echo "root: ${POSTMASTER}" >> /etc/aliases

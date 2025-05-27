@@ -1,4 +1,4 @@
-# See man(5) for format
+# See aliases(5) for format
 
 # Forward all system mail to root
 postmaster: root

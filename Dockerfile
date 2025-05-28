@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 COPY config/aliases /etc/
 COPY config/10-master.conf /etc/dovecot/conf.d/
 COPY config/10-auth.conf /etc/dovecot/conf.d/
+COPY config/10-mail.conf /etc/dovecot/conf.d/
 
 COPY docker-entrypoint.sh .
 

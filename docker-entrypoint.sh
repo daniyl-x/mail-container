@@ -33,6 +33,12 @@ postconf -e "home_mailbox = ${HOME_MAILBOX}"
 postconf -e "smtpd_tls_cert_file = ${TLS_CERT_FILE}"
 postconf -e "smtpd_tls_key_file = ${TLS_KEY_FILE}"
 
+postconf -e "smtp_tls_security_level = may"
+postconf -e "smtpd_tls_security_level = may"
+postconf -e "smtpd_tls_note_starttls_offer = yes"
+postconf -e "smtpd_tls_loglevel = 1"
+postconf -e "smtpd_tls_recieved_header = yes"
+
 postconf -e "smtpd_sasl_type = dovecot"
 postconf -e "smtpd_sasl_path = private/auth"
 postconf -e "smtpd_sasl_local_domain ="

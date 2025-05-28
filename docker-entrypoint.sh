@@ -56,7 +56,9 @@ newaliases
 
 
 service postfix start
-while sleep 1; do
+service dovecot start
+while sleep 3; do
     service postfix status
+    service dovecot status
 done
 

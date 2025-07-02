@@ -3,7 +3,6 @@
 
 MASQUERADE_DOMAINS=${MASQUERADE_DOMAINS-}
 MYDOMAIN=${MYDOMAIN-}
-MYHOSTNAME=${MYHOSTNAME:-"mail.\$mydomain"}
 MYORIGIN=${MYORIGIN:-"\$mydomain"}
 TLS_CERT_FILE=${TLS_CERT_FILE-}
 TLS_KEY_FILE=${TLS_KEY_FILE-}
@@ -26,8 +25,7 @@ fi
 
 postconf -e "mydomain = ${MYDOMAIN}"
 postconf -e "myorigin = ${MYORIGIN}"
-postconf -e "myhostname = ${MYHOSTNAME}"
-postconf -e "mydestination = \$mydomain, $(postconf -h mydestination)"
+postconf -e "myhostname = \$mydomain"
 postconf -e "masquerade_domains = ${MASQUERADE_DOMAINS}"
 postconf -e "smtpd_tls_cert_file = ${TLS_CERT_FILE}"
 postconf -e "smtpd_tls_key_file = ${TLS_KEY_FILE}"

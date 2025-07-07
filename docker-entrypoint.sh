@@ -35,9 +35,8 @@ postconf -e "mailbox_command ="
 
 postconf -e "smtp_tls_security_level = may"
 postconf -e "smtpd_tls_security_level = may"
-postconf -e "smtpd_tls_note_starttls_offer = yes"
 postconf -e "smtpd_tls_loglevel = 1"
-postconf -e "smtpd_tls_recieved_header = yes"
+postconf -e "smtpd_tls_received_header = yes"
 
 postconf -e "smtpd_sasl_type = dovecot"
 postconf -e "smtpd_sasl_path = private/auth"
@@ -45,7 +44,7 @@ postconf -e "smtpd_sasl_local_domain ="
 postconf -e "smtpd_sasl_security_options = noanonymous"
 postconf -e "broken_sasl_auth_clients = yes"
 postconf -e "smtpd_sasl_auth_enable = yes"
-postconf -e "smtpd_sasl_recipient_restrictions = permit_sasl_authenticated,\
+postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,\
     permit_mynetworks,reject_unauth_destination"
 
 
